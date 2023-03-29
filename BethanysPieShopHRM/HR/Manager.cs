@@ -15,7 +15,7 @@ namespace BethanysPieShopHRM.HR
         public void AttendManagementMeeting()
         {
             NumberOfHoursWorked += 10;
-            Console.WriteLine($"Manager {FirstName} {LastName} is now attending a long meeting that could have been an email!")
+            Console.WriteLine($"Manager {FirstName} {LastName} is now attending a long meeting that could have been an email!");
         }
 
         public override void GiveBonus()

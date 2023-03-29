@@ -43,7 +43,7 @@ namespace BethanysPieShopHRM.HR
         }
         public int NumberOfHoursWorked
         {
-            get { return numberOfHoursWorked }
+            get { return numberOfHoursWorked; }
             protected set { numberOfHoursWorked = value; }
         }
         public double Wage

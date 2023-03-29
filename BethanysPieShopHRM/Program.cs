@@ -9,7 +9,7 @@ namespace BethanysPieShopHRM
         {
             List<Employee> employees = new List<Employee>();
 
-            Console.WriteLine("Bethany's Pie Show Emplyee App\n");
+            Console.WriteLine("Bethany's Pie Shop Emplyee App\n");
 
             Utilities.CheckForExistingEmployeesFile();
             string userSelect;
@@ -30,7 +30,7 @@ namespace BethanysPieShopHRM
                         Utilities.RegisterEmployee(employees);
                         break;
                     case "2":
-                        Console.WriteLine("View all employee still codding...");
+                        Utilities.ViewAllEmployees(employees);
                         break;
                     case "3":
                         Utilities.SaveEmployees(employees);

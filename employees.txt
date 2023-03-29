@@ -1,0 +1,2 @@
+firstName:Rafael;lastName:Teles;email:rafael@teste.com.br;birthDay:09/06/1991;hourlyRate:12;type:2;
+firstName:Charles;lastName:Jose;email:charles@teste.com.br;birthDay:01/05/1991;hourlyRate:11;type:4;

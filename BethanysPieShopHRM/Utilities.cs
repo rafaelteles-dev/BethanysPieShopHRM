@@ -163,12 +163,21 @@ namespace BethanysPieShopHRM
                     }
 
 					employees.Add(employee);
-
                 }
+				Console.ForegroundColor = ConsoleColor.Blue;
+				Console.WriteLine("Loading success");
+				Console.ResetColor();
+
+			}
+		}
+
+		internal static void ViewAllEmployees(List<Employee> employees)
+        {
+			for(int i = 0; i < employees.Count; i++)
+            {
+				employees[i].DisplayEmployeeDetails();
             }
         }
-
-
 
 	}
 }
