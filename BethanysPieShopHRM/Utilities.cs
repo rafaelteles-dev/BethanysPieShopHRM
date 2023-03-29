@@ -84,6 +84,90 @@ namespace BethanysPieShopHRM
 			Console.WriteLine("Employee created!\n\n");
 		}
 
+		internal static void SaveEmployees(List<Employee> employees)
+        {
+			string path = $"{directory}{fileName}";
+			StringBuilder sb = new StringBuilder();
+
+			foreach (Employee employee in employees)
+            {
+				string type = GetEmployeeType(employee);
+				sb.Append($"firstName:{employee.FirstName};");
+				sb.Append($"lastName:{employee.LastName};");
+				sb.Append($"email:{employee.Email};");
+				sb.Append($"birthDay:{employee.BirthDay.ToShortDateString()};");
+				sb.Append($"hourlyRate:{employee.HourlyRate};");
+				sb.Append($"type:{type};");
+
+				sb.Append(Environment.NewLine);
+            }
+			File.WriteAllText(path, sb.ToString());
+
+			Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Employees saved successfuly");
+			Console.ResetColor();
+
+		}
+
+		private static string GetEmployeeType(Employee employee)
+        {
+			if (employee is Manager)
+				return "2";
+			else if (employee is StoreManager)
+				return "3";
+			else if (employee is JuniorResearcher)
+				return "5";
+			else if (employee is Researcher)
+				return "4";
+			else if (employee is Employee)
+				return "1";
+			return "0";
+        }
+
+		internal static void LoadEmployees(List<Employee> employees)
+        {
+			string path = $"{directory}{fileName}";
+			if (File.Exists(path))
+            {
+				employees.Clear();
+				string[] employeesAsString = File.ReadAllLines(path);
+				for (int i=0 ; i < employeesAsString.Length ; i++)
+                {
+					string[] employeesSplit = employeesAsString[i].Split(';');
+					string firstName = employeesSplit[0].Substring(employeesSplit[0].IndexOf(':') + 1);
+					string lastName = employeesSplit[1].Substring(employeesSplit[1].IndexOf(':') + 1);
+					string email = employeesSplit[2].Substring(employeesSplit[2].IndexOf(':') + 1);
+					DateTime birthDay = DateTime.Parse(employeesSplit[3].Substring(employeesSplit[3].IndexOf(':') + 1));
+					double hourlyRate = double.Parse(employeesSplit[4].Substring(employeesSplit[4].IndexOf(':') + 1));
+					string employeeType = employeesSplit[5].Substring(employeesSplit[5].IndexOf(':') + 1);
+
+					Employee employee = null;
+
+					switch(employeeType)
+                    {
+						case "1":
+							employee = new Employee(firstName, lastName, email, birthDay, hourlyRate);
+							break;
+						case "2":
+							employee = new Manager(firstName, lastName, email, birthDay, hourlyRate);
+							break;
+						case "3":
+							employee = new StoreManager(firstName, lastName, email, birthDay, hourlyRate);
+							break;
+						case "4":
+							employee = new Researcher(firstName, lastName, email, birthDay, hourlyRate);
+							break;
+						case "5":
+							employee = new JuniorResearcher(firstName,lastName, email, birthDay, hourlyRate);
+							break;
+                    }
+
+					employees.Add(employee);
+
+                }
+            }
+        }
+
 
 
 	}

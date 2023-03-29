@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BethanysPieShopHRM.HR;
+using System;
 
 namespace BethanysPieShopHRM
 {
@@ -6,6 +7,8 @@ namespace BethanysPieShopHRM
     {
         public static void Main(string[] args)
         {
+            List<Employee> employees = new List<Employee>();
+
             Console.WriteLine("Bethany's Pie Show Emplyee App\n");
 
             Utilities.CheckForExistingEmployeesFile();
@@ -24,12 +27,16 @@ namespace BethanysPieShopHRM
                 switch (userSelect) 
                 {
                     case "1":
+                        Utilities.RegisterEmployee(employees);
                         break;
                     case "2":
+                        Console.WriteLine("View all employee still codding...");
                         break;
                     case "3":
+                        Utilities.SaveEmployees(employees);
                         break;
                     case "4":
+                        Utilities.LoadEmployees(employees);
                         break;
                     case "9":
                         break;
