@@ -84,7 +84,39 @@ namespace BethanysPieShopHRM
 			Console.WriteLine("Employee created!\n\n");
 		}
 
-		internal static void SaveEmployees(List<Employee> employees)
+        internal static void ViewEmployeeByID(List<Employee> employees)
+        {
+            try
+            {
+				Console.Write("Enter the Employee ID you want to see: ");
+				int selectID = int.Parse(Console.ReadLine());
+				Employee seleectedEmployee = employees[selectID];
+				seleectedEmployee.DisplayEmployeeDetails();
+            }
+			catch (FormatException fex)
+            {
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("This is not the correct format to enter an ID.\n");
+                Console.WriteLine(fex.Message);
+				Console.ResetColor();
+            }
+			catch(ArgumentOutOfRangeException outrangeex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("This ID doesn't exist.\n");
+				Console.WriteLine(outrangeex.Message);
+				Console.ResetColor();
+			}
+			catch(Exception ex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Something went wrong.");
+				Console.WriteLine(ex.Message);
+				Console.ResetColor();
+			}
+        }
+
+        internal static void SaveEmployees(List<Employee> employees)
         {
 			string path = $"{directory}{fileName}";
 			StringBuilder sb = new StringBuilder();
@@ -127,47 +159,74 @@ namespace BethanysPieShopHRM
 		internal static void LoadEmployees(List<Employee> employees)
         {
 			string path = $"{directory}{fileName}";
-			if (File.Exists(path))
-            {
-				employees.Clear();
-				string[] employeesAsString = File.ReadAllLines(path);
-				for (int i=0 ; i < employeesAsString.Length ; i++)
-                {
-					string[] employeesSplit = employeesAsString[i].Split(';');
-					string firstName = employeesSplit[0].Substring(employeesSplit[0].IndexOf(':') + 1);
-					string lastName = employeesSplit[1].Substring(employeesSplit[1].IndexOf(':') + 1);
-					string email = employeesSplit[2].Substring(employeesSplit[2].IndexOf(':') + 1);
-					DateTime birthDay = DateTime.Parse(employeesSplit[3].Substring(employeesSplit[3].IndexOf(':') + 1));
-					double hourlyRate = double.Parse(employeesSplit[4].Substring(employeesSplit[4].IndexOf(':') + 1));
-					string employeeType = employeesSplit[5].Substring(employeesSplit[5].IndexOf(':') + 1);
+            try {
+				if (File.Exists(path))
+				{
+					employees.Clear();
+					string[] employeesAsString = File.ReadAllLines(path);
+					for (int i = 0; i < employeesAsString.Length; i++)
+					{
+						string[] employeesSplit = employeesAsString[i].Split(';');
+						string firstName = employeesSplit[0].Substring(employeesSplit[0].IndexOf(':') + 1);
+						string lastName = employeesSplit[1].Substring(employeesSplit[1].IndexOf(':') + 1);
+						string email = employeesSplit[2].Substring(employeesSplit[2].IndexOf(':') + 1);
+						DateTime birthDay = DateTime.Parse(employeesSplit[3].Substring(employeesSplit[3].IndexOf(':') + 1));
+						double hourlyRate = double.Parse(employeesSplit[4].Substring(employeesSplit[4].IndexOf(':') + 1));
+						string employeeType = employeesSplit[5].Substring(employeesSplit[5].IndexOf(':') + 1);
 
-					Employee employee = null;
+						Employee employee = null;
 
-					switch(employeeType)
-                    {
-						case "1":
-							employee = new Employee(firstName, lastName, email, birthDay, hourlyRate);
-							break;
-						case "2":
-							employee = new Manager(firstName, lastName, email, birthDay, hourlyRate);
-							break;
-						case "3":
-							employee = new StoreManager(firstName, lastName, email, birthDay, hourlyRate);
-							break;
-						case "4":
-							employee = new Researcher(firstName, lastName, email, birthDay, hourlyRate);
-							break;
-						case "5":
-							employee = new JuniorResearcher(firstName,lastName, email, birthDay, hourlyRate);
-							break;
-                    }
+						switch (employeeType)
+						{
+							case "1":
+								employee = new Employee(firstName, lastName, email, birthDay, hourlyRate);
+								break;
+							case "2":
+								employee = new Manager(firstName, lastName, email, birthDay, hourlyRate);
+								break;
+							case "3":
+								employee = new StoreManager(firstName, lastName, email, birthDay, hourlyRate);
+								break;
+							case "4":
+								employee = new Researcher(firstName, lastName, email, birthDay, hourlyRate);
+								break;
+							case "5":
+								employee = new JuniorResearcher(firstName, lastName, email, birthDay, hourlyRate);
+								break;
+						}
 
-					employees.Add(employee);
-                }
-				Console.ForegroundColor = ConsoleColor.Blue;
-				Console.WriteLine("Loading success");
+						employees.Add(employee);
+					}
+					Console.ForegroundColor = ConsoleColor.Blue;
+					Console.WriteLine("Loading success");
+					//Console.ResetColor();
+				}
+			}
+			catch (IndexOutOfRangeException iex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("Something went wrong parsing the file, please check the data!");
+				Console.WriteLine(iex.Message);
+				//Console.ResetColor();
+			}
+			catch (FileNotFoundException fnfex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("The file couldn't be found!");
+				Console.WriteLine(fnfex.Message);
+				Console.WriteLine(fnfex.StackTrace);
+				//Console.ResetColor();
+			}
+			catch (Exception ex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("Something went wrong while loading the file!");
+				Console.WriteLine(ex.Message);
+				//Console.ResetColor();
+			}
+			finally
+			{
 				Console.ResetColor();
-
 			}
 		}
 

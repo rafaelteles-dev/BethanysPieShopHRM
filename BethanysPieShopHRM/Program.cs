@@ -20,6 +20,7 @@ namespace BethanysPieShopHRM
                 Console.WriteLine("2: View all employee");
                 Console.WriteLine("3: Save data");
                 Console.WriteLine("4: Load data");
+                Console.WriteLine("5: View employee by ID");
                 Console.WriteLine("9: Quit application");
                 Console.Write("Your Selection: ");
                 
@@ -38,6 +39,9 @@ namespace BethanysPieShopHRM
                     case "4":
                         Utilities.LoadEmployees(employees);
                         break;
+                    case "5":
+                        Utilities.ViewEmployeeByID(employees);
+                        break;
                     case "9":
                         break;
                     default:
@@ -47,7 +51,6 @@ namespace BethanysPieShopHRM
             }while (userSelect != "9") ;
 
             Console.WriteLine("Thanks for using the application");
-            Console.ReadKey();
 
         }
     }
